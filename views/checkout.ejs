@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout – SwatVapeStore</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #0A0A0A; font-family: "Roboto", sans-serif; color: #e6e6e6; min-height: 100vh; }
+
+        /* Layout */
+        .checkout-page { max-width: 1000px; margin: 32px auto; padding: 0 16px 80px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+
+        /* Cards */
+        .card { background: rgba(57,67,87,0.2); border: 0.5px solid rgba(255,255,255,0.07); border-radius: 14px; box-shadow: inset 0px 2px 2px 2px rgba(0,0,255,0.10); padding: 28px; }
+        .card-title { font-size: 16px; font-weight: 500; color: #f5f5f5; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; gap: 8px; }
+        .card-title i { color: #0077ff; }
+
+        /* Form */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 0.4px; }
+        .form-group .required { color: #ff5c5c; margin-left: 2px; }
+        .form-group input { padding: 11px 14px; background: rgba(0,0,0,0.4); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 8px; color: #f0f0f0; font-size: 14px; font-family: inherit; transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-group input:focus { outline: none; border-color: #0077ff; box-shadow: 0 0 0 3px rgba(0,119,255,0.08); }
+        .form-group input::placeholder { color: #444; }
+
+        /* Buttons */
+        .pay-btn { width: 100%; margin-top: 20px; padding: 14px; background: rgba(66,154,212,0.87); color: #fff; font-size: 15px; font-weight: 500; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .pay-btn:hover { background: aqua; color: #000; transform: scale(0.99); }
+
+        /* Cart Items — Cart.js بيكتب هنا */
+        .items { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; max-height: 360px; overflow-y: auto; padding-right: 4px; }
+        .items::-webkit-scrollbar { width: 4px; }
+        .items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .item_cart { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.25); border-radius: 10px; padding: 10px; border: 0.5px solid rgba(255,255,255,0.05); transition: opacity 0.3s, transform 0.3s; }
+        .item_cart.removing { opacity: 0; transform: translateX(20px); }
+
+        .img_name { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 0; }
+        .img_name img { width: 56px; height: 56px; object-fit: cover; border-radius: 8px; background: #0f0f10; flex-shrink: 0; }
+
+        .content { flex: 1; min-width: 0; }
+        .content h3 { font-size: 13px; font-weight: 500; color: #f0f0f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .content p { font-size: 13px; color: #E0A75E; margin-top: 3px; }
+
+        .quantity { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+        .quantityBtn { width: 22px; height: 22px; background: rgba(57,67,87,0.4); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 5px; color: #b8b8b8; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 13px; transition: all 0.15s; }
+        .quantityBtn:hover { background: #0077ff; color: #fff; border-color: #0077ff; }
+        .qty-value { font-size: 13px; color: #f0f0f0; min-width: 18px; text-align: center; }
+
+        .trash_continer { flex-shrink: 0; }
+        .removeCartBtn { background: transparent; border: none; color: #555; cursor: pointer; font-size: 15px; padding: 6px; border-radius: 6px; transition: all 0.2s; }
+        .removeCartBtn:hover { color: #ff5c5c; background: rgba(255,92,92,0.1); }
+
+        /* Totals */
+        .totals { border-top: 0.5px solid rgba(255,255,255,0.08); padding-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+        .total-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #999; }
+        .total-row span { color: #f0f0f0; font-weight: 500; }
+        .total-row.grand { font-size: 16px; font-weight: 500; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.08); }
+        .total-row.grand span { color: #E0A75E; font-size: 18px; }
+
+        /* Toast */
+        .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(80px); background: #0e0d0d; color: #f0f0f0; border: 0.5px solid rgba(0,119,255,0.3); border-radius: 8px; padding: 12px 22px; font-size: 14px; transition: transform 0.3s ease; z-index: 9999; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.4); pointer-events: none; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: rgba(124,194,67,0.4); background: rgba(124,194,67,0.1); color: #7CC243; }
+        .toast.error { border-color: rgba(255,107,107,0.4); background: rgba(255,107,107,0.1); color: #FF6B6B; }
+
+        /* Footer */
+        .footer { background: #111113; border-top: 0.5px solid rgba(255,255,255,0.07); padding: 20px 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .copyRight p { font-size: 12px; color: #666; }
+        .socialMadiaLinks ul { display: flex; list-style: none; gap: 14px; }
+        .socialMadiaLinks a { width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; background: rgba(57,67,87,0.3); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 7px; color: #b8b8b8; font-size: 15px; transition: all 0.2s; text-decoration: none; }
+        .socialMadiaLinks a:hover { background: #0077ff; border-color: #0077ff; color: #fff; }
+
+        /* Responsive */
+        @media (max-width: 720px) {
+            .checkout-page { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+<%- include('component/navbar') %>
+
+<div class="checkout-page">
+
+    <!-- Shipping Form -->
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fa-solid fa-truck"></i> Shipping Information
+        </h2>
+        <div class="form_div">
+        <form action="/pay" method="post" id="paymentForm">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="firstName">First Name <span class="required">*</span></label>
+                    <input type="text" id="firstName" name="firstName" required placeholder="First Name">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name <span class="required">*</span></label>
+                    <input type="text" id="lastName" name="lastName" required placeholder="Last Name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required placeholder="you@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone <span class="required">*</span></label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+20 xxx xxx xxxx">
+                </div>
+                <div class="form-group">
+                    <label for="country">Country <span class="required">*</span></label>
+                    <input type="text" id="country" name="country" required placeholder="Egypt">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address <span class="required">*</span></label>
+                    <input type="text" id="address" name="address" required placeholder="Detailed Address">
+                </div>
+            </div>
+            <button class="pay-btn payBtn" type="submit" form="paymentForm">
+                <i class="fa-solid fa-lock"></i> Place Order
+            </button>
+        </form>
+        </div>
+
+        <div id="paymentIframe" style="margin-top:16px;"></div>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="card">
+        <h2 class="card-title">
+            <i class="fa-solid fa-bag-shopping"></i> Order Summary
+        </h2>
+
+        <!-- Cart.js بيكتب المنتجات هنا تلقائياً -->
+        <div class="items"></div>
+
+        <div class="totals">
+            <div class="total-row">
+                <p>Subtotal</p>
+                <span class="subtotal">0 EGP</span>
+            </div>
+            <div class="total-row">
+                <p>Shipping Fee</p>
+                <span class="shipping">50 EGP</span>
+            </div>
+            <div class="total-row grand">
+                <p>Grand Total</p>
+                <span class="totaling">50 EGP</span>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="footer">
+    <div class="copyRight">
+        <p>Copyright &copy; 2024 SwatVapeStore. All rights reserved.</p>
+    </div>
+    <div class="socialMadiaLinks">
+        <ul>
+            <li><a href=""><i class="fa-brands fa-facebook"></i></a></li>
+            <li><a href=""><i class="fa-brands fa-x-twitter"></i></a></li>
+            <li><a href=""><i class="fa-brands fa-whatsapp"></i></a></li>
+            <li><a href=""><i class="fa-brands fa-linkedin"></i></a></li>
+        </ul>
+    </div>
+</footer>
+
+<script src="/public/js/Cart.js"></script>
+<script src="/public/js/pay.js"></script>
+<script src="/public/js/sweetalertPay.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/public/css/login.css">
+</head>
+<body>
+        <div class="login_box">
+        
+        <div style="background-color: black; width:40%; text-align: center; color: white; padding: 0 10px; ">
+        <h2 style="margin: 15px;" >Log in</h2>
+        </div>
+        <form class="boxColor login" id="loginForm" >
+            <h2 class="storeName">SwatVapeStore</h2>
+            <input name="email" class="emailInput" type="email" placeholder="email">
+            <input name="password" class="passwordInput" type="password" placeholder="password">
+            <button class="loginBtn" >Log in</button>
+            <span class="createAccMsg">dont have account <button class="createAccBtn" type="button"><a href="/registry" >click here</a></button></span>
+        </form>
+
+        
+    </div>
+
+    
+   
+   
+   
+   <script>
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.querySelector("input[name='email']").value;
+    const password = document.querySelector("input[name='password']").value;
+
+    const res = await fetch("/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+     window.location.href = "/admin/dashbord/add-product";
+});
+   </script>
+</body>
+</html>

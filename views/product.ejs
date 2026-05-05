@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= (product) ? product.name : "Product Not Found" %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body{
+            background-color: #0f0f10;
+        }
+        .page { background: #0f0f10; min-height: 100vh; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; color: #e6e6e6; display: flex; flex-direction: column; }
+        .container { max-width: 960px; margin: 0 auto; padding: 32px 16px; width: 100%; }
+        .main-content { flex: 1; }
+        .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+        .desc { max-height: 120px; overflow: hidden; line-height: 1.8; transition: max-height 0.3s ease; color: #b8b8b8; }
+        .desc.open { max-height: 1000px; }
+        .read-more { margin-top: 10px; background: none; border: none; color: #4DA3FF; cursor: pointer; font-size: 14px; transition: color 0.2s; }
+        .read-more:hover { color: #6BB6FF; }
+
+        .img-card { background: #1a1a1c; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.08); padding: 20px; }
+        #mainImage { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px; transition: opacity 0.25s ease; display: block; background: #0f0f10; }
+        .thumbnails { display: flex; gap: 8px; margin-top: 12px; justify-content: center; flex-wrap: wrap; }
+        .thumb { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.2s; background: #0f0f10; }
+        .thumb.active, .thumb:hover { border-color: #4DA3FF; }
+
+        .info-card { background: #1a1a1c; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.08); padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+        .brand-badge { display: inline-block; background: rgba(77, 163, 255, 0.12); color: #4DA3FF; font-size: 12px; padding: 4px 12px; border-radius: 8px; font-weight: 500; }
+        .product-name { font-size: 22px; font-weight: 500; color: #f5f5f5; line-height: 1.4; }
+        .price-row { display: flex; align-items: baseline; gap: 6px; }
+        .price-main { font-size: 28px; font-weight: 500; color: #E0A75E; }
+        .price-currency { font-size: 14px; color: #999; }
+        .divider { border: none; border-top: 0.5px solid rgba(255,255,255,0.08); }
+
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .meta-item { background: #232326; border-radius: 8px; padding: 10px 14px; }
+        .meta-label { font-size: 12px; color: #888; margin-bottom: 2px; }
+        .meta-value { font-size: 14px; font-weight: 500; color: #f0f0f0; }
+        .stock-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #7CC243; margin-right: 6px; vertical-align: middle; box-shadow: 0 0 6px rgba(124, 194, 67, 0.6); }
+
+        .btn-cart { width: 100%; padding: 14px; background: #185FA5; color: #E6F1FB; font-size: 15px; font-weight: 500; border: none; border-radius: 8px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: inherit; }
+        .btn-cart:hover:not(:disabled) { background: #2473C4; box-shadow: 0 8px 24px rgba(24, 95, 165, 0.3); transform: translateY(-2px); }
+        .btn-cart:active:not(:disabled) { transform: translateY(0); }
+        .btn-cart:disabled { background: #3a3a3d; color: #777; cursor: not-allowed; }
+
+        .btn-wishlist { width: 100%; padding: 12px; background: transparent; color: #b8b8b8; font-size: 14px; border: 0.5px solid rgba(255,255,255,0.15); border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+        .btn-wishlist:hover { background: #232326; border-color: #E0A75E; color: #E0A75E; }
+
+        .info-section { background: #1a1a1c; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.08); padding: 24px; }
+        .section-title { font-size: 16px; font-weight: 500; color: #f5f5f5; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+        .section-body { font-size: 14px; color: #b8b8b8; line-height: 1.8; }
+
+        .error-msg { text-align: center; margin-top: 80px; background: #1a1a1c; border-radius: 12px; padding: 48px 24px; border: 0.5px solid rgba(255,255,255,0.08); }
+        .error-msg h1 { font-size: 64px; font-weight: 500; color: #3a3a3d; margin-bottom: 12px; }
+        .error-msg p { font-size: 15px; color: #999; margin-bottom: 20px; }
+        .error-msg a { display: inline-block; padding: 10px 24px; background: #185FA5; color: #E6F1FB; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+        .error-msg a:hover { background: #2473C4; }
+
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #232326; color: #f0f0f0; border: 0.5px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 12px 20px; font-size: 14px; transition: transform 0.3s ease; z-index: 999; white-space: nowrap; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { border-color: rgba(124, 194, 67, 0.4); background: rgba(124, 194, 67, 0.1); color: #7CC243; }
+        .toast.error { border-color: rgba(255, 107, 107, 0.4); background: rgba(255, 107, 107, 0.1); color: #FF6B6B; }
+
+        /* Footer */
+        .footer { background: #1a1a1c; border-top: 0.5px solid rgba(255,255,255,0.08); margin-top: 60px; padding: 40px 16px 30px; }
+        .footer-container { max-width: 960px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 32px; margin-bottom: 40px; }
+        .footer-section h3 { font-size: 14px; font-weight: 600; color: #f5f5f5; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section a { color: #b8b8b8; text-decoration: none; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+        .footer-section a:hover { color: #4DA3FF; }
+        .social-links { display: flex; gap: 12px; margin-top: 12px; }
+        .social-links a { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: #232326; border-radius: 6px; border: 0.5px solid rgba(255,255,255,0.08); transition: all 0.2s; }
+        .social-links a:hover { background: #4DA3FF; color: #0f0f10; border-color: #4DA3FF; }
+        .newsletter-form { display: flex; gap: 8px; margin-top: 12px; }
+        .newsletter-form input { flex: 1; padding: 10px 14px; background: #232326; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 6px; color: #f0f0f0; font-size: 13px; font-family: inherit; transition: border-color 0.2s; }
+        .newsletter-form input:focus { outline: none; border-color: #4DA3FF; }
+        .newsletter-form button { padding: 10px 16px; background: #185FA5; color: #E6F1FB; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500; transition: background 0.2s; }
+        .newsletter-form button:hover { background: #2473C4; }
+        .footer-divider { border: none; border-top: 0.5px solid rgba(255,255,255,0.08); margin: 30px 0; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .footer-credit { font-size: 12px; color: #888; }
+        .footer-credit a { color: #4DA3FF; text-decoration: none; }
+        .footer-credit a:hover { text-decoration: underline; }
+        .payment-methods { display: flex; gap: 12px; flex-wrap: wrap; }
+        .payment-icon { width: 40px; height: 24px; background: #232326; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #999; }
+       
+        @media (max-width: 640px) {
+            .product-grid { grid-template-columns: 1fr; }
+            .product-name { font-size: 18px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 24px; }
+            .footer-bottom { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* ===== ts-slider ===== */
+        .ts-slider-wrap { max-width: 960px; margin: 0 auto; padding: 0 16px 48px; width: 100%; }
+        .ts-slider__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+        .ts-slider__title { font-size: 16px; font-weight: 500; color: #f5f5f5; display: flex; align-items: center; gap: 8px; }
+        .ts-slider__title i { color: #4DA3FF; }
+        .ts-slider__controls { display: flex; align-items: center; gap: 10px; }
+        .ts-nav { width: 32px; height: 32px; background: #1a1a1c; border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; color: #b8b8b8; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; transition: all 0.2s; }
+        .ts-nav:hover:not(:disabled) { background: #185FA5; border-color: #185FA5; color: #fff; }
+        .ts-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+        .ts-progress { width: 80px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+        .ts-progress__fill { height: 100%; width: 8%; background: #4DA3FF; border-radius: 99px; transition: width 0.25s ease; }
+        .ts-track { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 4px; }
+        .ts-track::-webkit-scrollbar { display: none; }
+        .ts-card { flex: 0 0 250px; scroll-snap-align: start; background: #1a1a1c; border: 0.5px solid rgba(255,255,255,0.07); border-radius: 12px; overflow: hidden; transition: border-color 0.2s, transform 0.2s; display: flex; flex-direction: column; }
+        .ts-card:hover { border-color: color-mix(in srgb, var(--c) 45%, transparent); transform: translateY(-3px); }
+        .ts-card__media { position: relative; aspect-ratio: 1/1; background: #0f0f10; overflow: hidden; }
+        .ts-card__bg { position: absolute; inset: 0; background: radial-gradient(circle at 70% 30%, color-mix(in srgb, var(--c) 18%, transparent), transparent 65%); pointer-events: none; }
+        .ts-card__imgwrap { display: block; width: 100%; height: 100%; }
+        .ts-card__imgwrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; display: block; }
+        .ts-card:hover .ts-card__imgwrap img { transform: scale(1.05); }
+        .ts-card__top { position: absolute; top: 10px; left: 10px; right: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .ts-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 6px; }
+        .ts-badge--new { background: rgba(92,200,255,0.15); color: #5cc8ff; border: 0.5px solid rgba(92,200,255,0.3); }
+        .ts-badge--hot { background: rgba(255,107,107,0.15); color: #ff6b6b; border: 0.5px solid rgba(255,107,107,0.3); }
+        .ts-fav { width: 28px; height: 28px; background: rgba(15,15,16,0.7); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 13px; color: #b8b8b8; transition: all 0.2s; }
+        .ts-fav:hover, .ts-fav.is-active { color: #ff5c5c; border-color: rgba(255,92,92,0.4); }
+        .ts-card__cta { position: absolute; bottom: 0; left: 0; right: 0; padding: 10px; background: linear-gradient(to top, rgba(15,15,16,0.92) 0%, transparent 100%); transform: translateY(100%); transition: transform 0.25s ease; }
+        .ts-card:hover .ts-card__cta { transform: translateY(0); }
+        .ts-card__cta .buy_btn { width: 100%; padding: 10px; background: #185FA5; color: #E6F1FB; font-size: 14px; font-weight: 500; border: none; border-radius: 7px; cursor: pointer; transition: background 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; font-family: inherit; }
+        .ts-card__cta .buy_btn:hover:not(:disabled) { background: #2473C4; }
+        .ts-card__cta .buy_btn:disabled { background: #3a3a3d; color: #666; cursor: not-allowed; }
+        .ts-card__info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 5px; flex: 1; }
+        .ts-card__row { display: flex; align-items: center; justify-content: space-between; gap: 6px; }
+        .ts-card__row--end { margin-top: auto; padding-top: 6px; }
+        .ts-brand { font-size: 12px; font-weight: 600; color: var(--c); text-decoration: none; text-transform: uppercase; letter-spacing: 0.4px; }
+        .ts-stock { font-size: 11px; color: #888; display: flex; align-items: center; gap: 3px; }
+        .ts-stock[data-stock="0"] { color: #ff6b6b; }
+        .ts-name { font-size: 14px; font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .ts-name a { color: #f0f0f0; text-decoration: none; }
+        .ts-name a:hover { color: var(--c); }
+        .ts-price__now { font-size: 17px; font-weight: 500; color: #E0A75E; }
+        .ts-bar { flex: 1; height: 2px; background: color-mix(in srgb, var(--c) 30%, transparent); border-radius: 99px; }
+        .ts-skeleton { flex: 0 0 250px; background: #1a1a1c; border-radius: 12px; border: 0.5px solid rgba(255,255,255,0.06); overflow: hidden; animation: tsPulse 1.5s ease-in-out infinite; }
+        .ts-skeleton__img { aspect-ratio: 1/1; background: #232326; }
+        .ts-skeleton__body { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .ts-skeleton__line { height: 10px; border-radius: 4px; background: #2a2a2e; }
+        .ts-skeleton__line--sm { width: 60%; }
+        @keyframes tsPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+        @media (max-width: 640px) { .ts-card { flex: 0 0 200px; } }
+    </style>
+</head>
+<body>
+
+<%- include('component/navbar') %>
+
+<% if (product) { %>
+
+<div class="page">
+    <div class="main-content">
+        <div class="container">
+
+            <div class="product-grid">
+
+                <!-- Image -->
+                <div class="img-card">
+                    <img 
+                        id="mainImage" 
+                        src="/img/<%= product.image %>" 
+                        alt="<%= product.name %>"
+                        onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'"
+                    >
+                    <div class="thumbnails">
+                        <img 
+                            class="thumb active"
+                            src="/img/<%= product.image %>"
+                            onclick="changeImage(this, '/img/<%= product.image %>')"
+                            onerror="this.src='https://via.placeholder.com/60x60?text=Img'"
+                        >
+                        <% if (product.images && product.images.length > 0) { %>
+                            <% product.images.forEach(function(img) { %>
+                                <img 
+                                    class="thumb" 
+                                    src="/img/<%= img %>" 
+                                    onclick="changeImage(this, '/img/<%= img %>')"
+                                    onerror="this.src='https://via.placeholder.com/60x60?text=Img'"
+                                >
+                            <% }); %>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- Info -->
+                <div class="info-card">
+                    <div><span class="brand-badge"><%= product.brand %></span></div>
+
+                    <h1 class="product-name"><%= product.name %></h1>
+
+                    <div class="price-row">
+                        <span class="price-main"><%= Number(product.price).toLocaleString() %></span>
+                        <span class="price-currency">EGP</span>
+                    </div>
+
+                    <hr class="divider">
+
+                    <div class="meta-grid">
+                        <div class="meta-item">
+                            <div class="meta-label">Brand</div>
+                            <div class="meta-value"><%= product.brand %></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Category</div>
+                            <div class="meta-value"><%= product.category %></div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">Stock</div>
+                            <div class="meta-value">
+                                <% if (product.stock > 0) { %>
+                                    <span class="stock-dot"></span> In stock (<%= product.stock %>)
+                                <% } else { %>
+                                    Out of stock
+                                <% } %>
+                            </div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">SKU</div>
+                            <div class="meta-value"><%= product.link || '—' %></div>
+                        </div>
+                    </div>
+
+                    <hr class="divider">
+
+                    <% if (product.stock > 0) { %>
+                        <button 
+                            class="btn-cart buy_btn"
+                            data-id="<%= product.id %>"
+                            data-name="<%= product.name %>"
+                            data-price="<%= product.price %>"
+                            data-img="<%= product.image %>" 
+                            data-stock="<%= product.stock %>"
+                        >
+                            <i class="fa fa-shopping-cart"></i> Add to Cart
+                        </button>
+                    <% } else { %>
+                        <button class="btn-cart" disabled>
+                            <i class="fa fa-ban"></i> Out of Stock
+                        </button>
+                    <% } %>
+
+                    <button class="btn-wishlist">
+                        <i class="fa fa-heart-o"></i> Add to Wishlist
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="info-section">
+                <div class="section-title"><i class="fas fa-file-alt"></i> Description</div>
+                <div class="desc" id="desc">
+                    <%= product.description %>
+                </div>
+                <button class="read-more" onclick="toggleDesc()">Read more</button>
+            </div>
+
+        <!-- Products Slider -->
+        <section class="ts-slider ts-slider-wrap" data-fetch="/products/random">
+            <div class="ts-slider__head">
+                <h2 class="ts-slider__title"><i class="fa-solid fa-fire"></i> You May Also Like</h2>
+                <div class="ts-slider__controls">
+                    <div class="ts-progress"><div class="ts-progress__fill"></div></div>
+                    <button class="ts-nav" data-dir="-1" aria-label="prev"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button class="ts-nav" data-dir="1"  aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="ts-track ts-track--loading">
+                <div class="ts-skeleton"><div class="ts-skeleton__img"></div><div class="ts-skeleton__body"><div class="ts-skeleton__line ts-skeleton__line--sm"></div><div class="ts-skeleton__line"></div><div class="ts-skeleton__line ts-skeleton__line--sm"></div></div></div>
+                <div class="ts-skeleton"><div class="ts-skeleton__img"></div><div class="ts-skeleton__body"><div class="ts-skeleton__line ts-skeleton__line--sm"></div><div class="ts-skeleton__line"></div><div class="ts-skeleton__line ts-skeleton__line--sm"></div></div></div>
+                <div class="ts-skeleton"><div class="ts-skeleton__img"></div><div class="ts-skeleton__body"><div class="ts-skeleton__line ts-skeleton__line--sm"></div><div class="ts-skeleton__line"></div><div class="ts-skeleton__line ts-skeleton__line--sm"></div></div></div>
+                <div class="ts-skeleton"><div class="ts-skeleton__img"></div><div class="ts-skeleton__body"><div class="ts-skeleton__line ts-skeleton__line--sm"></div><div class="ts-skeleton__line"></div><div class="ts-skeleton__line ts-skeleton__line--sm"></div></div></div>
+            </div>
+        </section>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast">
+    <i class="fa fa-check"></i> &nbsp; Added to cart
+</div>
+
+<% } else { %>
+
+<div class="page">
+    <div class="container">
+        <div class="error-msg">
+            <h1>404</h1>
+            <p>This product doesn't exist or has been removed.</p>
+            <a href="/">Back to Home</a>
+        </div>
+    </div>
+</div>
+
+<% } %>
+<%- include('component/minidevice') %>
+<%- include('component/footer') %>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="/public/js/device.js"></script>
+<script src="/public/js/searchBar.js" defer></script>
+<script src="/public/js/Cart.js"></script>
+<script src="/public/js/Add-Product-ToPage.js" defer></script>
+
+<script>
+    function changeImage(thumb, src) {
+        const main = document.getElementById('mainImage');
+        main.style.opacity = '0';
+        setTimeout(() => { 
+            main.src = src; 
+            main.style.opacity = '1'; 
+        }, 250);
+        document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+    }
+
+    function toggleDesc() {
+        const desc = document.getElementById("desc");
+        const btn = document.querySelector(".read-more");
+        desc.classList.toggle("open");
+        if (desc.classList.contains("open")) {
+            btn.innerHTML = '<i class="fas fa-chevron-up"></i> Read less';
+        } else {
+            btn.innerHTML = '<i class="fas fa-chevron-down"></i> Read more';
+        }
+    }
+</script>
+
+</body>
+</html>

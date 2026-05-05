@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>orders</title>
+    <!-- <link rel="stylesheet" href="dashbord.css"> -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+<style>
+ *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+        }
+        body{
+            background-color: #111;
+        }
+        .continer{
+            display: flex;
+            width: 100%;
+            .sideControl{
+                width: 20%;
+                background-color: #ffffff0d;
+                margin-right: 30px;
+                margin-top: 10px;
+                margin-left:10px;
+                height: 80vh;
+                box-shadow: 0px 0px 6px 0px beige;
+                
+                .controls{
+                    display: flex;
+                    gap:30px;
+                    flex-direction: column;
+                
+                    h2{
+                        display: flex;
+                        justify-self: center;
+                        align-self: center;
+                        padding-top: 10px;
+                                 color: wheat;
+                    }
+                }
+                .aLink{
+                    text-decoration: none;
+                }
+                .ordersBtn {
+                    background-color: #ffffff;
+                    display: flex;
+                    width: 90%;
+                    justify-content: center;
+                    align-items: center;
+                    justify-self: center;
+                    margin-top: 10px;
+                    height: 60px;
+                    color: black;
+                    border-radius: 40px;
+                    font-size: 18px;
+                    font-weight: bold;
+            }
+            .ordersBtn:hover{
+                width: 90%;
+                cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+                transition: 0.2s;
+            }
+
+        }
+        .btnTable{
+            width: 120px;
+            height: 46px;
+            border-radius: 29px;
+            transition: 0.2s;
+        }
+        .btnTable:hover{
+            cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+        }
+            
+            .main{
+                
+               background: #ffffff0d;
+        margin: 20px 0;
+        box-shadow: 0px 0px 6px 0px beige;
+            }
+            .totalDiv{
+                text-align: center;
+                font-size: 30px;
+                color: beige;
+            }
+            .tableLable{
+                    color: wheat;
+            }
+            .ordarStauts{
+                color: white;
+                padding: 20px 0;
+            }
+            td, th {
+    padding: 10px 15px;
+}   
+.card{
+    color:white;
+}
+          
+         .pending {
+    color: gray;
+    font-weight: bold;
+}
+
+.onway {
+    color: orange;
+    font-weight: bold;
+}
+
+.delivered {
+    color: green;
+    font-weight: bold;
+}      
+        }
+            
+        
+        /* .head{
+            display: flex;
+          
+            width: 100%;
+            height: 100px;
+        
+            background-color:rgba(255, 255, 255, 0.384);
+            .navUl{
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                align-items: center;
+            }
+            .alink_head button{
+                 background-color: rgb(19 72 83);
+                 color: white;
+                 width: 350px;
+                 height: 60px;
+                 margin: 0 20px;
+                 border-radius: 10px;
+                 cursor: pointer;
+            }
+        } */
+        /* .orderTable{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+
+            .ul_order{
+                 display: flex;
+                justify-content: space-around;
+                 width: 100%; 
+              
+               
+            }
+        }
+        .card{
+             display: flex;
+                justify-content: space-around;
+                /* width: 100%; */
+               
+         
+
+
+</style>
+<body>
+    
+    <!-- <header class="head">
+         
+         </div>
+        <ul class="navUl">
+            <li>
+                <a class="alink_head" href=""><button>Orders</button></a>
+            </li>
+            <li>
+                <a class="alink_head" href=""><button>Add New Product</button></a>
+            </li>
+            <li>
+                <a class="alink_head" href=""><button>product dash bord</button></a>
+            </li>
+            
+        </ul>
+        <hr style="color: blue;">
+
+    </header> -->
+
+    <div class="continer">
+        <div class="sideControl">
+                <div class="controls">
+                    <h2 >Admin Dashbord</h2>
+                        <a class="aLink" href="/">
+                            <button class="ordersBtn">store</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order">
+                            <button class="ordersBtn active">orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/orders-items">
+                            <button class="ordersBtn">orders Items</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/add-product">
+                            <button class="ordersBtn">Add New Product</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order_done">
+                            <button class="ordersBtn">done orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/restock">
+                            <button class="ordersBtn">ReStock</button>
+                        </a>
+                        
+                </div>
+            </div>
+       <div class="main">
+
+        <table>
+  <thead class="tableLable">
+    <tr>
+      <th>ID</th>
+      <th>paymob-Id</th>
+      <th>Amount</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Country</th>
+      <th>Address</th>
+      <th>Date</th>
+      <th>status</th>
+      <th>pay_status</th>
+      <th>control</th>
+    </tr>
+  </thead>
+
+  <tbody class="card"></tbody>
+</table>
+<div class="totalDiv">مجموع الطلبات <span class="totalOrderPrice"></span></div>
+       </div>
+    </div>
+
+  
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+<script>
+const STATUS = {
+    PENDING: "Pending",
+    ON_WAY: "On Way",
+    DELIVERED: "Delivered"
+};
+
+let card = document.querySelector(".card");
+
+
+// ==========================
+// FETCH ORDERS
+// ==========================
+fetch("/show/orders/on/site")
+    .then(res => res.json())
+    .then(data => {
+
+        let total = 0;
+        card.innerHTML = "";
+        data.forEach(item => {
+
+            card.innerHTML += `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.paymob_order_id}</td>
+
+                <td class="priceTable">${item.amount}</td>
+                <td>${item.first_name + " " + item.last_name}</td>
+                <td>${item.email}</td>
+                <td>${item.phone}</td>
+                <td>${item.country}</td>
+                <td>${item.address}</td>
+                <td>${item.created_at}</td>
+                <td class="deliveredText">${item.status || "Pending"}</td>
+                <td>${item.pay_status||""}</td>
+                
+                
+                <td>
+                    <button class="doneBtn btnTable" data-id="${item.id}">DONE</button>
+                    <button class="changeStatusBtn btnTable" data-id="${item.id}">Change Status</button>
+                </td>
+            </tr>`;
+
+
+
+            function updateTotalPrice() {
+
+                if (item.pay_status === "paid") {
+                    total += Number(item.amount);
+                    document.querySelector(".totalOrderPrice").textContent = total;
+                }
+            }
+
+            
+            
+         
+           
+            applyColors();
+            updateTotalPrice();
+        });
+
+    
+
+    })
+    .catch(err => console.log("FETCH ERROR:", err));
+
+
+// ==========================
+// CHANGE STATUS (DB UPDATE)
+// ==========================
+
+
+
+document.addEventListener("click", function (e) {
+
+    if (e.target.classList.contains("changeStatusBtn")) {
+
+        let id = e.target.dataset.id;
+        let row = e.target.closest("tr");
+        let text = row.querySelector(".deliveredText");
+
+        let current = text.textContent.trim();
+        let next;
+
+        if (current === STATUS.PENDING) next = STATUS.ON_WAY;
+        else if (current === STATUS.ON_WAY) next = STATUS.DELIVERED;
+        else next = STATUS.PENDING;
+
+        // UI update
+        text.textContent = next;
+        applyColor(text, next);
+
+        // ==========================
+        // DATABASE UPDATE
+        // ==========================
+        fetch("/orders/status/update", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                id: id,
+                status: next
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log("DB UPDATED:", data);
+        })
+        .catch(err => console.log("UPDATE ERROR:", err));
+    }
+});
+
+
+
+// ==========================
+// APPLY COLORS
+// ==========================
+function applyColor(el, status) {
+
+    el.classList.remove("pending", "onway", "delivered");
+
+    if (status === STATUS.PENDING) el.classList.add("pending");
+    else if (status === STATUS.ON_WAY) el.classList.add("onway");
+    else if (status === STATUS.DELIVERED) el.classList.add("delivered");
+}
+
+
+// ==========================
+// APPLY COLORS ON LOAD
+// ==========================
+function applyColors() {
+
+    document.querySelectorAll(".deliveredText").forEach(el => {
+        applyColor(el, el.textContent.trim());
+    });
+}
+
+
+// ==========================
+// DELETE ORDER
+// ==========================
+
+
+
+card.addEventListener("click", function (e) {
+    if (e.target.classList.contains("doneBtn")) {
+        const id = e.target.dataset.id;
+        const row = e.target.closest("tr");
+        
+        // البحث عن حالة "التوصيل" داخل الصف المختار فقط وليس كل الصفحة
+        const statusText = row.querySelector(".deliveredText");
+
+        // التأكد من أن حالة الطلب "Delivered" قبل إظهار التنبيه
+        if (statusText && statusText.textContent.trim() === "Delivered") {
+            Swal.fire({
+                title: "هل أنت متأكد؟",
+                text: "لن تتمكن من استرجاع الطلب بعد النقل!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "نعم، انقل الطلب",
+                cancelButtonText: "إلغاء"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // إرسال الطلب للخادم
+                    fetch(`/orders/done/${id}`, {
+                        method: "POST"
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            row.remove(); // حذف الصف من الجدول
+                            Swal.fire({
+                                title: "تم النقل!",
+                                icon: "success"
+                            });
+                        }
+                    })
+                    .catch(err => console.error("ERROR:", err));
+                }
+            });
+        } else {
+            // تنبيه اختياري إذا حاول المستخدم النقل والطلب لم يكتمل بعد
+            Swal.fire("تنبيه", "يجب أن تكون حالة الطلب Delivered أولاً", "info");
+        }
+    }
+});
+
+
+</script>
+
+<!-- //  <script src="order.js"></script>  -->
+</html>

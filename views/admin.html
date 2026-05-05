@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin dashbord</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+        }
+        body{
+            background-color: #111;
+        }
+        .continer{
+            display: flex;
+            width: 100%;
+            
+            .sideControl{
+                width: 20%;
+                background-color: #ffffff0d;
+                margin-right: 30px;
+                margin-top: 10px;
+                margin-left:10px;
+                height: 80vh;
+                box-shadow: 0px 0px 6px 0px beige;
+                
+                .controls{
+                    display: flex;
+                    gap:30px;
+                    flex-direction: column;
+                
+                    h2{
+                        display: flex;
+                        justify-self: center;
+                        align-self: center;
+                        padding-top: 10px;
+                                 color: wheat;
+                    }
+                }
+                .aLink{
+                    text-decoration: none;
+                }
+                .ordersBtn {
+            background-color: #ffffff;
+            display: flex;
+            width: 90%;
+            justify-content: center;
+            align-items: center;
+            justify-self: center;
+            margin-top: 10px;
+            height: 60px;
+            color: black;
+            border-radius: 40px;
+            font-size: 18px;
+            font-weight: bold;
+            }
+            .ordersBtn:hover{
+                width: 90%;
+                cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+                transition: 0.2s;
+            }
+
+        }
+    }
+        
+        .head{
+            display: flex;
+          
+            width: 100%;
+            height: 100px;
+        
+            background-color:rgba(255, 255, 255, 0.384);
+            .navUl{
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                align-items: center;
+                 z-index: 1000;
+            }
+            .alink_head button{
+                 background-color: rgb(19 72 83);
+                 color: white;
+                 width: 350px;
+                 height: 60px;
+                 margin: 0 20px;
+                 border-radius: 10px;
+                 cursor: pointer;
+            }
+        }
+        .box_color{
+            display: flex;
+            width: 100%;
+            height: 60vh;
+            justify-content: center;
+            align-items: center;
+            
+            form{
+         width: 86%;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        /* background-color: #111; */
+        /* flex: 1; */
+        background-color: #ffffff0d;
+        box-shadow: 0px 0px 6px 0px beige;
+        margin-top: 227px;
+    }
+            }
+            form input{
+                padding: 20px;
+                width: 80%;
+                align-self: center;
+                
+            }
+            form input::placeholder{
+                font-size: 20px;
+            }
+            form button{
+                width: 40%;
+                height: 45px;
+                align-self: center;           
+                margin-top: 10px;
+                height: 60px;
+                color: black;
+                border-radius: 40px;
+                font-size: 18px;
+                font-weight: bold;
+            }
+            form button:hover{
+                cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+                transition: 0.2s;
+            }
+            
+            form h2{
+                align-self: center;
+                font-weight: 500;
+                color: white;
+            }
+            .imgInput button{
+                background-color: #111;
+            }
+    </style>
+</head>
+<body>
+    <!-- <header class="head">
+        <ul class="navUl">
+            <li>
+                <a class="alink_head" href="/admin/dashbord/order"><button>Orders</button></a>
+            </li>
+            <li>
+                <a class="alink_head" href=""><button>Add New Product</button></a>
+            </li>
+            <li>
+                <a class="alink_head" href=""><button>product dash bord</button></a>
+            </li>
+        </ul>
+
+    </header> -->
+    <div class="continer">
+
+        <div class="sideControl">
+                     <div class="controls">
+                    <h2 >Admin Dashbord</h2>
+                        <a class="aLink" href="/">
+                            <button class="ordersBtn">store</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order">
+                            <button class="ordersBtn active">orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/orders-items">
+                            <button class="ordersBtn">orders Items</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/add-product">
+                            <button class="ordersBtn">Add New Product</button>
+                        </a>
+                         <a class="aLink" href="/admin/dashbord/order_done">
+                            <button class="ordersBtn">done orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/restock">
+                            <button class="ordersBtn">ReStock</button>
+                        </a>
+                </div>
+                </div>
+        <div class="box_color">
+            <form action="/addProudct/sendDb" method="post" enctype="multipart/form-data">
+                <h2>اضافه منتجات لي الصفحه</h2>
+                <input type="text" name="link" placeholder="ادخل لينك المنتج">
+                <input type="text" name="name" placeholder="ادخل اسم المنتج">
+                <input type="text" name="price" placeholder="ادخل سعر المنتج">
+                <!-- <input type="text" name="photo" placeholder="ادخل مسار الصوره"> -->
+                <input type="text" name="table" placeholder="اضافه الي انهي جدول">
+                <input type="file" name="image" class="imgInput">
+                <button type="submit">Add now</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

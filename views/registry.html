@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+<body>
+    <div class="login_box">
+         <div style="background-color: black; width:40%; text-align: center; color: white; padding: 0 10px; ">
+        <h2 style="margin: 15px;" >Registry</h2>
+        </div>
+    <form class="boxColor registry " action="/api/registry" method="post">
+         <h2 class="storeName" style="bottom: 40px;">SwatVapeStore</h2>
+            <input class="firstNameInput" name="firstName" type="text" placeholder="First name">
+            <input class="lastNameInput" name="lastName" type="text" placeholder="Last name">
+            <input name="email" type="email" class="emailInput" placeholder="Email">
+            <input type="password" name="password" class="passwordInput" placeholder="Password">
+            <button type="submit" class="loginBtn"> registry</button>
+            <span class="createAccMsg">if you have account <button class="loginAcc" type="button"><a href="/login">click here</a></button></span>
+        </form>
+    </div>
+
+    <script>
+
+    </script>
+</body>
+</html>

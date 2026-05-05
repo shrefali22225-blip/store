@@ -1,0 +1,408 @@
+!<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RE Stock</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <style>
+         body{
+            background-color: #111;
+        }
+        .continer{
+            display: flex;
+            width: 100%;
+        }
+        .sideControl{
+                width: 20%;
+                background-color: #ffffff0d;
+                margin-right: 30px;
+                margin-top: 10px;
+                margin-left:10px;
+                height: 80vh;
+                box-shadow: 0px 0px 6px 0px beige;
+                
+                .controls{
+                    display: flex;
+                    gap:30px;
+                    flex-direction: column;
+                
+                    h2{
+                        display: flex;
+                        justify-self: center;
+                        align-self: center;
+                        padding-top: 10px;
+                                 color: wheat;
+                    }
+                }
+                .aLink{
+                    text-decoration: none;
+                }
+                .ordersBtn {
+                    background-color: #ffffff;
+                    display: flex;
+                    width: 90%;
+                    justify-content: center;
+                    align-items: center;
+                    justify-self: center;
+                    margin-top: 10px;
+                    height: 60px;
+                    color: black;
+                    border-radius: 40px;
+                    font-size: 18px;
+                    font-weight: bold;
+            }
+            .ordersBtn:hover{
+                width: 90%;
+                cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+                transition: 0.2s;
+            }
+        }
+.main{
+                
+               background: #ffffff0d;
+        margin: 20px 0;
+        box-shadow: 0px 0px 6px 0px beige;
+            }
+            .totalDiv{
+                text-align: center;
+                font-size: 30px;
+                color: beige;
+            }
+            .tableLable{
+                    color: wheat;
+            }
+            .ordarStauts{
+                color: white;
+                padding: 20px 0;
+            }
+            td, th {
+    padding: 10px 15px;
+}   
+.card{
+    color:white;
+}
+          
+         .pending {
+    color: gray;
+    font-weight: bold;
+}
+
+.onway {
+    color: orange;
+    font-weight: bold;
+}
+
+.delivered {
+    color: green;
+    font-weight: bold;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 0 60px;
+}
+form.hiden{
+    display: none;
+    transition: 0.4s;
+}
+
+form input{
+    font-size: 20px;
+    height: 40px;
+    box-shadow: 0px 0px 4px 2px rgba(245, 222, 179, 0.671);
+    background-color: black;
+    color: #ffffff;
+    border: none;
+    box-sizing: border-box;
+}
+form input::placeholder{
+    font-size: 20px;
+    padding: 0 20px;
+}
+form input:active{
+    border: solid 1px red;
+}
+.submitBtn{
+    align-self: center;
+}
+ .btnStyle{
+         background-color: #ffffff;
+        display: flex;
+        width: 300px;
+        justify-content: center;
+        align-items: center;
+        justify-self: center;
+        margin: 10px 0;
+        height: 45px;
+        color: black;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .btnStyle:hover{
+        width: 90%;
+        cursor: pointer;
+        box-shadow: 0px 0px 4px 2px wheat;
+        background-color: #111;
+        color: white;
+        transition: 0.2s;
+    }
+    table .btnStyle{
+        width: 170px;
+    }
+
+        
+        
+    </style>
+</head>
+<body>
+     <div class="continer">
+        <div class="sideControl">
+                <div class="controls">
+                    <h2 >Admin Dashbord</h2>
+                        <a class="aLink" href="/">
+                            <button class="ordersBtn">store</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order">
+                            <button class="ordersBtn active">orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/orders-items">
+                            <button class="ordersBtn">orders Items</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/add-product">
+                            <button class="ordersBtn">Add New Product</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order_done">
+                            <button class="ordersBtn">done orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/restock">
+                            <button class="ordersBtn">ReStock</button>
+                        </a>
+                        
+                </div>
+            </div>
+
+             <div class="main">
+
+        <table>
+  <thead class="tableLable">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>price</th>
+      <th>stock</th>
+      <th>category</th>
+    </tr>
+  </thead>
+  
+
+  <tbody class="card"></tbody>
+</table>
+<div class="addDiv ">
+    <button class="addProducts btnStyle">Add Products</button>
+    <form action="/insert/proudct" method="post" class="form hiden" enctype="multipart/form-data">
+        <input type="text" placeholder="id" name="id">
+        <input type="text" placeholder="name" name="name">
+        <input type="text" placeholder="price" name="price">
+        <input type="text" placeholder="link" name="link">
+        <input type="text" placeholder="brand" name="brand">
+        <input type="text" placeholder="brandLink" name="brandLink">
+        <input type="text" placeholder="stock" name="stock">
+        <input type="text" placeholder="category" name="category">
+        <input type="text" placeholder="description" name="description">
+        <input type="file" placeholder="image" name="img">
+        <button class="btnStyle submitBtn" type="submit">Add</button>
+    </form>
+</div>
+       </div>
+    </div>
+<script>
+   fetch("/restock/product").then(data => data.json()).then(result => {
+    let card = document.querySelector(".card");
+    card.innerHTML = "";
+
+    result.forEach(data => {
+        card.innerHTML += `
+            <tr>
+                <td>${data.id}</td>
+                <td>${data.name}</td>
+                <td>${data.price}</td>
+                <td class="stock-val">${data.stock}</td> 
+                <td>${data.category}</td>
+                <td><button class="btnTable updateStockBtn btnStyle" data-id="${data.id}"> update stock </button></td>
+                <td><button class="btnTable deleteProudcts btnStyle" data-id="${data.id}"> delete </button></td>
+
+            </tr>
+        `;
+    });
+
+    let updateStockBtn = document.querySelectorAll(".updateStockBtn");
+    updateStockBtn.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            let currentId = e.target.getAttribute("data-id");
+            let row = e.target.closest("tr");
+
+            let td = document.createElement("td");
+            td.innerHTML = `
+                <input type="number" placeholder="new Stock" class="restockInput">
+                <button class="confirmBtn" data-id="${currentId}">confirm</button>
+            `;
+            row.appendChild(td);
+            e.target.disabled = true;
+
+            td.querySelector(".confirmBtn").addEventListener("click", (confirmEvent) => {
+                let productId = confirmEvent.target.getAttribute("data-id");
+                let newValue = td.querySelector(".restockInput").value;
+
+                // التحقق من القيمة باستخدام SweetAlert
+                if (!newValue) {
+                    return Swal.fire({
+                        icon: 'warning',
+                        title: 'تنبيه',
+                        text: 'يرجى إدخال قيمة للمخزون!',
+                        confirmButtonColor: '#3085d6'
+                    });
+                }
+
+                fetch("/update/stock", {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ 
+                        id: productId, 
+                        stock: newValue 
+                    })
+                })
+                .then(res => res.json())
+                .then(response => {
+                    // رسالة نجاح باستخدام SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم التحديث بنجاح',
+                        text: `تم تعديل مخزون المنتج رقم ${productId}`,
+                        showConfirmButton: false,
+                        timer: 1500 // تختفي تلقائياً بعد 1.5 ثانية
+                    });
+
+                    row.querySelector(".stock-val").innerText = newValue; 
+                    td.remove(); 
+                    btn.disabled = false; 
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+                    // رسالة خطأ باستخدام SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ في العملية',
+                        text: 'لم يتم التحديث، حاول مرة أخرى'
+                    });
+                });
+            });
+        });
+    });
+});
+  let form =document.querySelector(".form")          
+let addBtn =document.querySelector(".addProducts")
+addBtn.addEventListener("click",()=>{
+ form.classList.toggle("hiden")
+if (form.classList.contains("hiden")) {
+        addBtn.textContent = "Add Product"; // النص الأصلي
+    } else {
+        addBtn.textContent = "Close"; // لما الفورم تفتح
+    }
+})
+
+
+
+form.addEventListener("submit", (e) => {
+    e.preventDefault(); // بيمنع الصفحة إنها تحمل من جديد
+
+    // بنستخدم FormData عشان تجمع الصور والنصوص مع بعض
+    const formData = new FormData(form);
+
+    fetch("/insert/proudct", {
+        method: "POST",
+        body: formData // متبعتش Headers يدوي، المتصفح هيظبطها لوحده مع FormData
+    })
+    .then(res => res.json())
+    .then(data => {
+        Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: 'تم إضافة المنتج بنجاح'
+                    });
+        form.reset(); // بيمسح البيانات من الخانات بعد الإرسال
+        form.classList.add("hiden"); // بيخفي الفورم تاني
+    
+    })
+    .catch(err => console.error("Error:", err));
+});
+let card = document.querySelector(".card");
+
+card.addEventListener("click", (e) => {
+    if (e.target.classList.contains("deleteProudcts")) {
+        let idbtn = e.target.dataset.id;
+
+        // رسالة تأكيد قبل الحذف
+        Swal.fire({
+            title: 'هل أنت متأكد؟',
+            text: "لن تتمكن من استرجاع هذا المنتج!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'نعم، احذف',
+            cancelButtonText: 'إلغاء'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                fetch("/deleteing/proudcts", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ id: idbtn })
+                })
+                .then(res => res.json())
+                .then(data => {
+
+                    // رسالة نجاح
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'تم الحذف',
+                        text: 'تم حذف المنتج بنجاح',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+
+                    // حذف الصف من الجدول
+                    e.target.closest("tr").remove();
+                })
+                .catch(err => {
+                    console.error("Error:", err);
+
+                    // رسالة خطأ
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'خطأ',
+                        text: 'حدث خطأ أثناء الحذف'
+                    });
+                });
+
+            }
+        });
+    }
+});
+
+
+
+   
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>

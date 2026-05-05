@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trending Pods</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/public/css/slider.css" />
+</head>
+<body>
+<%- include('component/navbar') %>
+   <!-- ============ TRENDING PODS ============ -->
+  <section class="ts-slider"
+           data-fetch="/add/pod/proudct/on/page"
+           data-track="tsTrackPods">
+    <div class="ts-bg">
+      <div class="ts-bg__aurora"></div>
+      <div class="ts-bg__sheen"></div>
+      <div class="ts-bg__lines"></div>
+      <div class="ts-bg__vignette"></div>
+      <div class="ts-bg__grain"></div>
+    </div>
+    <div class="ts-container">
+      <div class="ts-header">
+        <div>
+          <div class="ts-pill">
+            <span class="ts-dot"><span class="ts-dot__ping"></span><span class="ts-dot__core"></span></span>
+            <span>Live · Restocked Today</span>
+          </div>
+          <h2 class="ts-title">Trending <span class="ts-title__accent">Pods</span></h2>
+          <p class="ts-subtitle">Hand-picked pods leading the charts this week.</p>
+        </div>
+        <div class="ts-controls">
+          <a href="/category/pods" class="ts-seeall">See all <i class="fa-solid fa-chevron-right"></i></a>
+          <button class="ts-nav ts-nav--ghost" data-dir="-1" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="ts-nav ts-nav--solid" data-dir="1" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="ts-track-wrap">
+        <div class="ts-fade ts-fade--left"></div>
+        <div class="ts-fade ts-fade--right"></div>
+        <div class="ts-track" id="tsTrackPods"></div>
+      </div>
+      <div class="ts-progress-wrap">
+        <div class="ts-progress"><div class="ts-progress__fill"></div></div>
+      </div>
+    </div>
+  </section>
+  <!-- ============ TRENDING MODS ============ -->
+  <section class="ts-slider"
+           data-fetch="/add/mod/proudct/on/page"
+           data-track="tsTrackMods">
+    <div class="ts-bg">
+      <div class="ts-bg__aurora"></div>
+      <div class="ts-bg__sheen"></div>
+      <div class="ts-bg__lines"></div>
+      <div class="ts-bg__vignette"></div>
+      <div class="ts-bg__grain"></div>
+    </div>
+    <div class="ts-container">
+      <div class="ts-header">
+        <div>
+          <div class="ts-pill">
+            <span class="ts-dot"><span class="ts-dot__ping"></span><span class="ts-dot__core"></span></span>
+            <span>Power · Performance</span>
+          </div>
+          <h2 class="ts-title">Trending <span class="ts-title__accent">Mods</span></h2>
+          <p class="ts-subtitle">High-performance mods built for power users.</p>
+        </div>
+        <div class="ts-controls">
+          <a href="/category/mods" class="ts-seeall">See all <i class="fa-solid fa-chevron-right"></i></a>
+          <button class="ts-nav ts-nav--ghost" data-dir="-1" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="ts-nav ts-nav--solid" data-dir="1" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="ts-track-wrap">
+        <div class="ts-fade ts-fade--left"></div>
+        <div class="ts-fade ts-fade--right"></div>
+        <div class="ts-track" id="tsTrackMods"></div>
+      </div>
+      <div class="ts-progress-wrap">
+        <div class="ts-progress"><div class="ts-progress__fill"></div></div>
+      </div>
+    </div>
+  </section>
+  <!-- ============ TRENDING E-LIQUIDS ============ -->
+  <section class="ts-slider"
+           data-fetch="/add/liqued/proudct/on/page"
+           data-track="tsTrackEliquid">
+    <div class="ts-bg">
+      <div class="ts-bg__aurora"></div>
+      <div class="ts-bg__sheen"></div>
+      <div class="ts-bg__lines"></div>
+      <div class="ts-bg__vignette"></div>
+      <div class="ts-bg__grain"></div>
+    </div>
+    <div class="ts-container">
+      <div class="ts-header">
+        <div>
+          <div class="ts-pill">
+            <span class="ts-dot"><span class="ts-dot__ping"></span><span class="ts-dot__core"></span></span>
+            <span>Best · Flavors</span>
+          </div>
+          <h2 class="ts-title">Best <span class="ts-title__accent">E-Liquids</span></h2>
+          <p class="ts-subtitle">Premium flavors curated for the perfect hit.</p>
+        </div>
+        <div class="ts-controls">
+          <a href="/category/liqued" class="ts-seeall">See all <i class="fa-solid fa-chevron-right"></i></a>
+          <button class="ts-nav ts-nav--ghost" data-dir="-1" aria-label="previous"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="ts-nav ts-nav--solid" data-dir="1" aria-label="next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+      <div class="ts-track-wrap">
+        <div class="ts-fade ts-fade--left"></div>
+        <div class="ts-fade ts-fade--right"></div>
+        <div class="ts-track" id="tsTrackEliquid"></div>
+      </div>
+      <div class="ts-progress-wrap">
+        <div class="ts-progress"><div class="ts-progress__fill"></div></div>
+      </div>
+    </div>
+  </section>
+<%- include('component/minidevice') %>
+  <%- include('component/footer') %>
+
+  <script src="/public/js/slider.js"></script>
+  <script src="/public/js/Add-Product-ToPage.js"></script>
+  <script src="/public/js/Cart.js"></script>
+  <script src="/public/js/searchBar.js"></script>
+  <script src="/public/js/device.js"></script>
+</body>
+</html>

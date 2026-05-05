@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>complete orders</title>
+</head>
+<style>
+ *{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+
+        }
+        body{
+            background-color: #111;
+        }
+        .continer{
+            display: flex;
+            width: 100%;
+            .sideControl{
+                width: 20%;
+                background-color: #ffffff0d;
+                margin-right: 30px;
+                margin-top: 10px;
+                margin-left:10px;
+                height: 80vh;
+                box-shadow: 0px 0px 6px 0px beige;
+                
+                .controls{
+                    display: flex;
+                    gap:30px;
+                    flex-direction: column;
+                
+                    h2{
+                        display: flex;
+                        justify-self: center;
+                        align-self: center;
+                        padding-top: 10px;
+                                 color: wheat;
+                    }
+                }
+                .aLink{
+                    text-decoration: none;
+                }
+                .ordersBtn {
+                    background-color: #ffffff;
+                    display: flex;
+                    width: 90%;
+                    justify-content: center;
+                    align-items: center;
+                    justify-self: center;
+                    margin-top: 10px;
+                    height: 60px;
+                    color: black;
+                    border-radius: 40px;
+                    font-size: 18px;
+                    font-weight: bold;
+            }
+            .ordersBtn:hover{
+                width: 90%;
+                cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+                transition: 0.2s;
+            }
+
+        }
+        .btnTable{
+            width: 120px;
+            height: 46px;
+            border-radius: 29px;
+            transition: 0.2s;
+        }
+        .btnTable:hover{
+            cursor: pointer;
+                box-shadow: 0px 0px 4px 2px wheat;
+                background-color: #111;
+                color: white;
+        }
+            
+            .main{
+                
+               background: #ffffff0d;
+        margin: 20px 0;
+        box-shadow: 0px 0px 6px 0px beige;
+            }
+            .totalDiv{
+                text-align: center;
+                font-size: 30px;
+                color: beige;
+            }
+            .tableLable{
+                    color: wheat;
+            }
+            .ordarStauts{
+                color: white;
+                padding: 20px 0;
+            }
+            td, th {
+    padding: 10px 15px;
+}   
+.card{
+    color:white;
+}
+          
+         .pending {
+    color: gray;
+    font-weight: bold;
+}
+
+.onway {
+    color: orange;
+    font-weight: bold;
+}
+
+.delivered {
+    color: green;
+    font-weight: bold;
+}      
+        }
+            
+        
+        /* .head{
+            display: flex;
+          
+            width: 100%;
+            height: 100px;
+        
+            background-color:rgba(255, 255, 255, 0.384);
+            .navUl{
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                align-items: center;
+            }
+            .alink_head button{
+                 background-color: rgb(19 72 83);
+                 color: white;
+                 width: 350px;
+                 height: 60px;
+                 margin: 0 20px;
+                 border-radius: 10px;
+                 cursor: pointer;
+            }
+        } */
+        /* .orderTable{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+
+            .ul_order{
+                 display: flex;
+                justify-content: space-around;
+                 width: 100%; 
+              
+               
+            }
+        }
+        .card{
+             display: flex;
+                justify-content: space-around;
+                /* width: 100%; */
+               
+         
+
+.search_id_div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    input{
+        width: 350px;
+        height: 33px;
+        font-size: 34px;
+    }
+    input::placeholder{
+        text-align: center;
+        font-size: 25px;
+    }
+    button{
+        width: 100px;
+        height: 36px;
+    }
+}
+</style>
+<body>
+    <div class="continer">
+        <div class="sideControl">
+                <div class="controls">
+                    <h2 >Admin Dashbord</h2>
+                        <a class="aLink" href="/">
+                            <button class="ordersBtn">store</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/order">
+                            <button class="ordersBtn">orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/orders-items">
+                            <button class="ordersBtn active">orders Items</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/add-product">
+                            <button class="ordersBtn">Add New Product</button>
+                        </a>
+                         <a class="aLink" href="/admin/dashbord/order_done">
+                            <button class="ordersBtn">done orders</button>
+                        </a>
+                        <a class="aLink" href="/admin/dashbord/restock">
+                            <button class="ordersBtn">ReStock</button>
+                        </a>
+                        
+                </div>
+            </div>
+       <div class="main">
+        <div class="search_id_div">
+            <input type="number" id="orderId" placeholder="Enter Order ID">
+            <button onclick="getOrder()">Search</button>
+        </div>
+
+    <table>
+  <thead class="tableLable">
+    <tr>
+      <th>id</th>
+      <th>proudct_name</th>
+      <th>order-id</th>
+      <th>proudct_id</th>
+      <th>quntity</th>
+      <th>price</th>
+        
+    </tr>
+  </thead>
+
+  <tbody class="card"></tbody>
+</table>
+<div class="totalDiv">مجموع الطلبات <span class="totalOrderPrice"></span></div>
+       </div>
+    </div>
+    <script>
+        let card =document.querySelector(".card")
+        fetch("/api/orders_items").then(result=>result.json()).then(data=>{
+           
+                
+                card.innerHTML=""
+                let total= 0
+                data.forEach(info => {
+                       card.innerHTML+=`
+                       <tr>
+                           <td>${info.id}</td>
+                           <td>${info.product_name}</td>
+                           <td>${info.order_id}</td>
+                           <td>${info.product_id}</td>
+                           <td>${info.quantity}</td>
+                           <td>${info.price}</td>
+                        </tr>   
+                       `
+                       total+= info.quantity*info.price
+                    })
+                 
+                    let totalPriceText= document.querySelector(".totalOrderPrice")
+                    totalPriceText.textContent= total
+                });
+        
+    </script>
+    <script src="/public/js/filter_orders_items.js"></script>
+</body>
+</html>
