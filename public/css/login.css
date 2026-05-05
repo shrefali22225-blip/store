@@ -1,0 +1,87 @@
+*{
+    border: none;
+    box-sizing: border-box;
+    padding: 0;
+    outline: none;
+    margin: 0;
+    list-style: none;
+    font-weight: 400;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+body{
+    background-color: #111;
+}
+.login_box{
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-color: rgb(238, 233, 233); */
+    background-color:#111;
+    .boxColor{
+        background-color: white;
+        width: 40%;
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0 30px;
+    }
+    .storeName{
+        position: relative;
+        bottom: 80px;
+        font-size: 30px;
+    }
+    input{
+        margin-bottom: 15px;
+        width: 100%;
+        height: 60px;
+        border-radius: 20px;
+        background-color: #111;
+        color: #eee;
+        font-size: 14px;
+        padding: 0 20px;
+        border: 2px solid blue;
+        
+    }
+    input::placeholder{
+        padding: 0 20px;
+    }
+    input:focus::placeholder{
+        position: absolute;
+        top: 1px;
+        transition: 0.5s;
+    }
+    .loginBtn{
+        padding: 10px;
+        width: 250px;
+        height: 60px;
+        border-radius: 20px;
+        background-color: #111;
+        color: #eee;
+    }
+    .login.hide,.registry.hide{
+        display: none;
+    }
+    .createAccMsg{
+        margin-top: 20px;
+        color: #111;
+        
+    }
+    .createAccMsg button{  
+        padding: 10px;
+        width: 100px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: bold;
+        background-color: #111;
+        color: #eee;
+    }
+     .createAccMsg button a{
+        text-decoration: none;
+        color: #eee;
+     }
+}

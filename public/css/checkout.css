@@ -1,0 +1,558 @@
+/* -------------------------------------------
+   1. الإعدادات الأساسية وإعادة الضبط (Reset)
+   ------------------------------------------- */
+* {
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+body {
+    background-color: #040c0f; /* خلفية صفحة الدفع */
+    direction: rtl; /* اتجاه من اليمين لليسار */
+    text-align: right;
+}
+
+/* -------------------------------------------
+   2. تنسيقات شريط التنقل (Navigation Bar)
+      (تم دمج التنسيقات الأصلية مع تعديل الترتيب)
+   ------------------------------------------- */
+
+.navContainer {
+    width: 100%;
+    display: flex;
+    background-color: black;
+    padding: 0 20px;
+    z-index: 100;
+}
+
+.navContainer .logo {
+    width: 220px;
+    cursor: pointer;
+    display: flex;
+    padding: 0 0px;
+    /* ⬅️ التعديل هنا: دفع اللوجو إلى أقصى اليسار (نهاية الشريط في RTL) */
+}
+
+nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+    font-size: 18px;
+    padding: 20px 20px;
+    /* ➡️ التعديل هنا: دفع القائمة إلى أقصى اليمين (بداية الشريط في RTL) */
+    order: 1;
+}
+
+/* تنسيقات القائمة النشطة (Mobile Menu) */
+nav ul.active {
+    flex-direction: column;
+    background-color: #151618;
+    position: fixed;
+    top: 60px;
+    right: 1px;
+    width: 100%;
+    height: calc(100% - 60px);
+    transition: 0.3s;
+    padding: 20px;
+    gap: 15px;
+    z-index: 1000;
+}
+
+nav li a {
+    text-decoration: none;
+    color: white;
+}
+
+nav i {
+    cursor: pointer;
+}
+
+.categoryBtn span {
+    cursor: pointer;
+}
+
+.categoryList {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    background-color: #151618;
+    right: 190px;
+    z-index: 100;
+    opacity: 90%; 
+}
+
+/* تنسيقات القائمة المنسدلة النشطة (للموبايل أو غيره) */
+.categoryList.active {
+    display: flex;
+    width: 180px;
+    height: fit-content;
+    flex-direction: column;
+    position: absolute;
+    background-color: #151618;
+    right: 170px;
+    top: 60px;
+    z-index: 100;
+    opacity: 90%;
+}
+
+.categoryList li {
+    border-bottom: 1px solid white;
+    padding: 10px 10px;
+    font-size: 22px;
+    text-align: center;
+}
+
+.categoryList li a:hover {
+    color: #0077ff;
+    transition: 0.1s;
+}
+
+/* شريط البحث (يحتفظ بالترتيب 2 ليبقى في المنتصف) */
+.searchContiner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.searchContiner input {
+    width: 440px;
+    height: 30px;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.searchContiner i {
+    font-size: 18px;
+    /* تم تغيير left إلى right ليتناسب مع RTL */
+    position: relative;
+    right: 470px; 
+    z-index: 100;
+    color: rgb(231, 235, 231);
+}
+
+.ProudctList {
+    height: 400px;
+    width: 50%;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    /* تم تغيير right بناءً على المنتصف لـ 50% عرض */
+    right: 25%; 
+    top: 65px;
+    z-index: 100;
+    background-color: rgb(19, 18, 18);
+    overflow-y: scroll;
+    opacity: 98%;
+}
+
+.ProudctList.active {
+    display: flex;
+}
+
+.ProudctList::-webkit-scrollbar {
+    display: none;
+}
+/* ... بقية تنسيقات SearchBar ... */
+.Proudct {
+    display: flex;
+    gap: 100px;
+    align-items: center;
+}
+.ProudctImg {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.ProudctImg img {
+    width: 130px;
+    padding: 10px 20px;
+}
+.info {
+    display: flex;
+    justify-content: center;
+    width: 240px;
+    gap: 30px;
+}
+.linkSearch {
+    width: 220px;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 0 30px; 
+    font-size: inherit;
+}
+/* Mobile Menu Toggle */
+.menuBar {
+    display: none;
+    align-items: center;
+    order: 4; /* يمكن وضعه في نهاية شريط التنقل ليتناسب مع اللوجو في اليسار */
+}
+.fa-bars {
+    display: inline;
+    position: absolute;
+    right: 0;
+    font-size: xx-large;
+}
+
+.fa-bars.active {
+    display: none;
+}
+
+.fa-xmark {
+    display: none !important;
+    position: absolute;
+    right: 0;
+    font-size: xx-large;
+}
+
+.fa-xmark.active {
+    display: inline !important;
+}
+
+/* -------------------------------------------
+   3. تنسيقات عربة التسوق الجانبية (The Cart)
+   ------------------------------------------- */
+.cart {
+    width: 400px;
+    height: 100vh;
+    background-color: white;
+    position: fixed;
+    top: 0px;
+    right: -400px; /* إخفاء لليمين (بداية الشاشة في RTL) */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+    text-align: center;
+    overflow: scroll;
+    transition: 0.5s;
+}
+.cart::-webkit-scrollbar {
+    display: none;
+}
+.cart.active {
+    right: 0; /* إظهار */
+    overflow-x: hidden;
+}
+.cartItem {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+}
+.closeCartbtn {
+    cursor: pointer;
+    font-size: 1.6rem;
+    padding: 10px 0;
+}
+.closeCartbtn:hover {
+    color: red;
+}
+.ImgCart {
+    width: 120px;
+}
+.totalPrice {
+    display: flex;
+    align-items: end;
+    height: 100%;
+}
+.minus, .plus, .deleteItem {
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.checkoutBtn {
+    display: flex;
+    justify-content: center; 
+    background-color: #0A0A0A;
+    color: azure;
+    bottom: 0px;
+    left: 0;
+    width: 100%;
+    padding: 30px 300px;
+    font-size: 1rem;
+}
+
+/* -------------------------------------------
+   4. تنسيقات شاشة الدفع (Checkout Section)
+   ------------------------------------------- */
+.checkout {
+    padding: 30px 20px;
+    max-width: 1280px;
+    margin: 0 auto;
+    display: flex;
+}
+
+.checkout form {
+    display: flex;
+    gap: 40px; 
+    flex-wrap: wrap; 
+    align-items: stretch; 
+}
+
+.form_box, .continer.order-summary-container {
+    background: #FFFFFF;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+    min-width: 320px;
+    flex: 1; 
+}
+
+.form_box {
+    flex: 3; 
+}
+
+.continer.order-summary-container {
+    flex: 2; 
+    margin-right: 22px;
+}
+
+.form-title, .ordersummary h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+    color: #1A1A1A;
+    border-bottom: 3px solid #FF5733; 
+    padding-bottom: 15px;
+    text-align: right;
+    font-weight: 700;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 25px;
+    font-size: 15px;
+    color: #444;
+    font-weight: 600;
+}
+
+.form-label input {
+    width: 100%;
+    padding: 14px 18px;
+    margin-top: 8px;
+    border: 1px solid #DDD;
+    border-radius: 8px;
+    font-size: 17px;
+    transition: all 0.3s;
+    background-color: #FAFAFA;
+    text-align: right; 
+}
+
+.form-label input:focus {
+    border-color: #FF5733; 
+    background-color: #FFFFFF;
+    box-shadow: 0 0 0 3px rgba(255, 87, 51, 0.2);
+    outline: none;
+}
+
+.required {
+    color: #FF5733;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.items {
+    max-height: 450px;
+    overflow-y: auto;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.item_cart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px dashed #EEE;
+}
+
+.img_name {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.img_name img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.content h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.price_cart {
+    font-size: 16px;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 5px;
+}
+
+.trash_continer i {
+    color: #DC3545; 
+    cursor: pointer;
+    font-size: 20px;
+    opacity: 0.8;
+}
+
+.total_section {
+    padding-top: 25px;
+}
+
+.total_sum, .shipping {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    font-size: 17px;
+    color: #555;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.totaling {
+    display: flex;
+    justify-content: space-between;
+    font-size: 22px;
+    font-weight: 800;
+    color: #FF5733;
+    border-top: 2px solid #FF5733;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.submit_div {
+    margin-top: 35px;
+}
+
+.payBtn {
+    width: 100%;
+    padding: 20px;
+    background-color: #28a745; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.submit_div button:hover {
+    background-color: #1F7A35;
+}
+
+/* footer */
+
+footer {
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  position: fixed;   /* <--- التثبيت الحقيقي */
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  opacity: 90%;     /* علشان يفضل فوق أي عناصر */
+}
+
+/* روابط السوشيال ميديا */
+footer .socialMadiaLinks ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  padding: 10px 0;
+  margin: 0;
+}
+
+footer .socialMadiaLinks ul a {
+  color: aliceblue;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+footer .socialMadiaLinks ul a:hover {
+  color: #00bfff;
+}
+/* footerEnd */
+
+/* -------------------------------------------
+   5. استجابة الشاشة (Media Queries)
+   ------------------------------------------- */
+@media (max-width: 992px) {
+    .checkout form {
+        flex-direction: column;
+        gap: 30px;
+    }
+    .form_box, .continer.order-summary-container {
+        width: 100%;
+        min-width: unset;
+        order: 1; 
+        flex: unset;
+    }
+    .checkout {
+        padding: 40px 15px;
+    }
+    
+    /* 📱 في شاشات الموبايل، نلغي الترتيب اليدوي لتعمل قائمة الموبايل بشكل صحيح */
+    .navContainer .logo, nav ul, .searchContiner {
+        order: unset;
+        justify-content: unset;
+    }
+}
+@media(max-width: 540px) {
+    .searchContiner input {
+        width: 300px;
+    }
+    .searchContiner i {
+        right: 330px; 
+    }
+    footer {
+    display: none;   
+}
+.checkout{
+    flex-direction: column;
+}
+.navContainer{
+    display: none;
+}
+
+.form-title, .ordersummary h1{
+    text-align: center;
+}
+    .form_box, .continer.order-summary-container{
+        margin: 0;
+    }
+}
+@media(max-width:384px){
+    
+.form-title, .ordersummary h1{
+    text-align: center;
+    font-size: 21px;
+}
+    
+}
